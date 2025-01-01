@@ -1,4 +1,4 @@
 package com.example.heavylogistics.Model;
 
-public class RequestVehicle {
+public class LessorProfile {
 }
