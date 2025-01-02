@@ -1,7 +1,10 @@
-package com.example.heavylogistics.Model;
+package com.example.heavylogistics.DTOin;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,28 +16,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Setter
 @Getter
-@Entity
-public class DriverRequest {
+public class InputDriverRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
     @NotEmpty(message = "vehicleName should be not empty!")
-    @Column(columnDefinition = "VARCHAR(30) NOT NULL")
     private String vehicleName;
 
     @NotEmpty(message = "vehicleType should be not empty!")
-    @Column(columnDefinition = "VARCHAR(40) NOT NULL")
     private String vehicleType;
 
     @NotEmpty(message = "Vehicle Capacity is required")
-    @Column(columnDefinition = "VARCHAR(20) NOT NULL")
     private String vehicleCapacity;
 
     @NotEmpty(message = "Starting location is required.")
     @Size(max = 200, message = "Starting location must not exceed 200 characters.")
-    @Column(columnDefinition = "VARCHAR(200) NOT NULL")
     private String startLocation;
 
     @NotEmpty(message = "Destination location is required.")
@@ -43,36 +38,13 @@ public class DriverRequest {
     private String destinationLocation;
 
     @NotNull(message = "Request start time is required.")
-    @Column(nullable = false)
     private LocalDateTime startTime;
 
     @NotNull(message = "Request end time is required.")
-    @Column(nullable = false)
     private LocalDateTime endTime;
 
-    @NotNull(message = "Expected total amount is required.")
-    @Positive(message = "Expected total amount must be a positive value.")
-    @Column(nullable = false)
-    private Double totalAmount;
-
     @Size(max = 500, message = "Customer note must not exceed 500 characters.")
-    @Column(columnDefinition = "VARCHAR(500)")
     private String customerNote;
-
-    @Pattern(regexp = "PENDING|APPROVED|REJECTED|COMPLETED|CANACELLED")
-    @Column(columnDefinition = "varchar(10) default 'Pending'")
-    private String driverRequestStatus;
-
-    // Relations
-
-    @ManyToOne
-    @JoinColumn(name = "driver_id", nullable = false)
-    private Driver driver;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
-
 
 
 }

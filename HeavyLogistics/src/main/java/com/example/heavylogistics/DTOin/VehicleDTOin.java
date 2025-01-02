@@ -1,7 +1,7 @@
-package com.example.heavylogistics.Model;
+package com.example.heavylogistics.DTOin;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,25 +10,27 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Set;
 
-@Entity
-@Setter
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Vehicle {
+@Setter
+@Getter
+public class VehicleDTOin {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+    //Owner data
     @NotEmpty(message = "User National ID cannot be empty")
     @Pattern(regexp = "^\\d{10}$", message = "National ID must be exactly 10 digits.")
     private String nationalId;
 
     @NotEmpty(message = "Name Vehicle Owner cannot be empty")
     private String nameVehicleOwner;
+
+
+
+    @Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @NotNull(message = "Registration Date cannot be empty")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate registrationAt = LocalDate.now();
 
     //Operation card data
 
@@ -57,11 +59,11 @@ public class Vehicle {
 
     @NotNull(message = "PricePerDay Plate should be not empty!")
     @Positive(message = "PricePerDay number must be positive")
-    private Double  PricePerDay;
+    private double  PricePerDay;
 
     @NotNull(message = "PricePerHour Plate should be not empty!")
     @Positive(message = "PricePerHour number must be positive")
-    private Double pricePerHour;
+    private double PricePerHour;
 
     @NotEmpty(message = "Location should be not empty!")
     private String Location;
@@ -75,16 +77,7 @@ public class Vehicle {
 
 
 
-    @ManyToOne
-    private Lessor lessor;
 
-    @OneToMany
-    @JsonIgnore
-    private Set<VehicleReview> vehicleReviews;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vehicle")
-    private Set<VehicleSchedule> vehicleSchedules;
 
-    @OneToOne
-    private VehicleRequest vehicleRequest;
 }

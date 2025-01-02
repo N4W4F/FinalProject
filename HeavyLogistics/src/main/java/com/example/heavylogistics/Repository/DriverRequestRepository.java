@@ -1,4 +1,15 @@
 package com.example.heavylogistics.Repository;
 
-public interface DriverRequestRepository {
+import com.example.heavylogistics.Model.DriverRequest;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface DriverRequestRepository extends JpaRepository<DriverRequest,Integer> {
+
+
+    DriverRequest findDriverRequestById(Integer id);
+
+    DriverRequest findDriverRequestByIdAndCustomerAndDriverId(Integer id, Integer customerId, Integer driverId);
+
 }
