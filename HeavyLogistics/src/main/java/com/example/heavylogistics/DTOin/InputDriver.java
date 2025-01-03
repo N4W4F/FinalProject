@@ -32,7 +32,7 @@ public class InputDriver {
     private String email;
 
     @NotEmpty(message = "PhoneNumber is required")
-    @Pattern(regexp = "^\\+9665[0-9]{8}$", message = "Phone number must be a valid Saudi number starting with +9665 and followed by 8 digits")
+    @Pattern(regexp = "^05\\d{8}$", message = "Phone Number must start with '05' and be exactly 10 digits long. ")
     private String phoneNumber;
 
     @Pattern(regexp = "^(CUSTOMER|LESSOR|DRIVER|ADMIN)$",

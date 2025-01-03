@@ -24,17 +24,32 @@ public class VehicleRequest {
     @Id
     private Integer id;
 
+    @NotNull(message = "Request start time is required.")
+    @Column(nullable = false)
+    private LocalDateTime startTime;
 
+    @NotNull(message = "Request end time is required.")
+    @Column(nullable = false)
+    private LocalDateTime endTime;
 
-    @Column(columnDefinition = "DECIMAL NOT NULL")
-    @NotNull(message = "Negotiation Price cannot be empty")
+    @Positive(message = "Expected total amount must be a positive value.")
+    @Column(nullable = false)
+    private Double totalAmountVehicle;
+
+    @Positive(message = "Expected total amount must be a positive value.")
+    @Column(nullable = false)
+    private Double totalAmountDriver;
+
     @Positive(message = "Negotiation Price number must be positive")
+    @Column(columnDefinition = "DECIMAL NOT NULL")
     private Double negotiationPrice;
 
     @NotEmpty(message = "Request Status should be not empty")
     @Pattern(regexp = "PENDING|APPROVED|REJECTED|COMPLETED|CANACELLED")
-    @Column(columnDefinition = "varchar(8) not null")
+    @Column(columnDefinition = "varchar(15) not null")
     private String requestStatus;
+
+    private  Boolean withDrive;
 
     @NotNull(message = "Date cannot be null")
     @Column
@@ -42,9 +57,9 @@ public class VehicleRequest {
 
 
     // Relations
-    @OneToOne
-    @MapsId
-    @JsonIgnore
+
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
 
     @ManyToOne

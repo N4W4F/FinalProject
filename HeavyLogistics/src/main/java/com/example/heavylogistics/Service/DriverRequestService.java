@@ -78,7 +78,6 @@ public class DriverRequestService {
         }
 
         return totalAmount;
-
     }
 
     public void driverDecision(Integer driverId, Integer driverRequestId, String decision) {

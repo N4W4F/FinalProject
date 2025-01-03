@@ -19,21 +19,5 @@ public class VehicleReviewService {
     private final CustomerRepository customerRepository;
     private final VehicleRepository vehicleRepository;
 
-    public void addReview(VehicleReviewDTOin dto) {
-        Customer customer = customerRepository.findCustomerById(dto.getCustomerId());
-        if (customer == null)
-            throw new ApiException("Customer not found");
 
-        Vehicle vehicle = vehicleRepository.findVehicleById(dto.getVehicleId());
-        if (vehicle == null)
-            throw new ApiException("Vehicle not found");
-
-        VehicleReview review = new VehicleReview();
-        review.setRating(dto.getRating());
-        review.setComments(dto.getComments());
-        review.setCustomer(customer);
-        review.setVehicle(vehicle);
-
-        vehicleReviewRepository.save(review);
-    }
 }

@@ -86,9 +86,20 @@ public class Vehicle {
     @NotEmpty(message = "Year of manufacture cannot be empty.")
     private String yearOfManufacture;
 
+    @NotNull(message = "Price per hour is required.")
+    @Positive(message = "Price per hour must be a positive value.")
+    @Column(nullable = false)
+    private Double driverPricePerHour;
+
+    @NotNull(message = "Price per day is required.")
+    @Positive(message = "Price per day must be a positive value.")
+    @Column(nullable = false)
+    private Double driverPricePerDay;
+
     // Relations
 
     @ManyToOne
+    @JoinColumn(name = "lessor_id", nullable = false)
     private Lessor lessor;
 
     @OneToMany
@@ -98,6 +109,7 @@ public class Vehicle {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vehicle")
     private Set<VehicleSchedule> vehicleSchedules;
 
-    @OneToOne
-    private VehicleRequest vehicleRequest;
+    @OneToMany
+    @JsonIgnore
+    private Set<VehicleRequest> vehicleRequest;
 }

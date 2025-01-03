@@ -40,15 +40,15 @@ public class VehicleController {
     }
 
 
-    @PostMapping("/addVehicle")
-    public ResponseEntity addVehicle(@RequestBody @Valid Vehicle vehicle) {
-        vehicleService.addVehicle(vehicle);
+    @PostMapping("/addVehicle/{lessorId}")
+    public ResponseEntity addVehicle(@PathVariable Integer lessorId,@RequestBody @Valid Vehicle vehicle) {
+        vehicleService.addVehicle(lessorId,vehicle);
         return ResponseEntity.status(200).body(new ApiResponse("Vehicle added successfully"));
     }
 
-    @PutMapping("/updateVehicle/{id}")
-    public ResponseEntity updateVehicle(@PathVariable Integer id, @RequestBody @Valid Vehicle vehicle) {
-        vehicleService.updateVehicle(id, vehicle);
+    @PutMapping("/updateVehicle/{lessorId}/{vehicleId}")
+    public ResponseEntity updateVehicle(@PathVariable Integer lessorId,@PathVariable Integer vehicleId, @RequestBody @Valid Vehicle vehicle) {
+        vehicleService.updateVehicle(lessorId, vehicleId, vehicle);
         return ResponseEntity.status(200).body(new ApiResponse("Vehicle updated successfully"));
     }
 

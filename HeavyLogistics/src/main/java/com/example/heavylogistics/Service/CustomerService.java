@@ -98,7 +98,7 @@ public class CustomerService {
             throw  new ApiException("The request not found");
         }
         Driver driver = driverRepository.findDriverById(driverRequest.getDriver().getId());
-        DriverRequest checkRequestWithCustomer = driverRequestRepository.findDriverRequestByIdAndCustomerAndDriverId(customerRequestId,customerId, driver.getId());
+        DriverRequest checkRequestWithCustomer = driverRequestRepository.findDriverRequestByIdAndCustomerAndDriverId(customerRequestId,customer, driver.getId());
         if (!checkRequestWithCustomer.equals(driverRequest)) {
             throw  new ApiException("The request doesn't match");
         }

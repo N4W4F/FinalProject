@@ -46,7 +46,7 @@ public class MyUser /*implements UserDetails*/ {
     @Column(columnDefinition = "VARCHAR(10) NOT NULL UNIQUE")
     @NotEmpty(message = "Customer Phone Number cannot be empty")
     @Pattern(regexp = "^05\\d{8}$",
-            message = "Customer Phone Number must start with '05' and be exactly 10 digits long.")
+            message = "User Phone Number must start with '05' and be exactly 10 digits long.")
     private String phoneNumber;
 
     @Column(columnDefinition = "VARCHAR(50) NOT NULL")

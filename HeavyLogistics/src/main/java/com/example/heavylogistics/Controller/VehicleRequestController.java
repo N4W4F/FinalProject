@@ -1,6 +1,8 @@
 package com.example.heavylogistics.Controller;
 
+import com.example.heavylogistics.DTOin.InputVehicleRequest;
 import com.example.heavylogistics.Model.VehicleRequest;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.example.heavylogistics.ApiResponse.ApiResponse;
 import com.example.heavylogistics.Service.VehicleRequestService;
@@ -25,18 +27,14 @@ public class VehicleRequestController {
         return ResponseEntity.status(200).body(requests);
     }
 
-    // Create a new vehicle request
-    @PostMapping("/{customerId}/{vehicleId}")
-    public ResponseEntity requestVehicle(@PathVariable Integer customerId, @PathVariable Integer vehicleId, @RequestBody VehicleRequest vehicleRequest) {
-        vehicleRequestService.requestVehicle(customerId, vehicleId, vehicleRequest);
-        return ResponseEntity.status(200).body(new ApiResponse("Vehicle request created successfully."));
+
+    @PostMapping("/requestVehicleWithoutDriver/{customerId}/{vehicleId}")
+    public ResponseEntity requestVehicleWithoutDriver(@PathVariable Integer customerId, @PathVariable Integer vehicleId, @RequestBody @Valid InputVehicleRequest inputVehicleRequest) {
+        vehicleRequestService.requestVehicleWithoutDriver(customerId, vehicleId, inputVehicleRequest);
+        return ResponseEntity.status(200).body(new ApiResponse("Vehicle request submitted successfully without a driver"));
     }
 
-    @PutMapping("/admin/{adminId}/update/{requestId}/status/{status}")
-    public ResponseEntity updateRequestStatus(@PathVariable Integer adminId, @PathVariable Integer requestId, @PathVariable String status) {
-        vehicleRequestService.updateRequestStatus(adminId, requestId, status);
-        return ResponseEntity.status(200).body(new ApiResponse("Vehicle request status updated successfully."));
-    }
+
 
     // Get customer-specific requests
     @GetMapping("/customer/{customerId}")

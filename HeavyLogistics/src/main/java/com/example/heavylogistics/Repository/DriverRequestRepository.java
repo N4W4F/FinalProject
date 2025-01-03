@@ -1,5 +1,6 @@
 package com.example.heavylogistics.Repository;
 
+import com.example.heavylogistics.Model.Customer;
 import com.example.heavylogistics.Model.DriverRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,7 +13,7 @@ public interface DriverRequestRepository extends JpaRepository<DriverRequest,Int
 
     DriverRequest findDriverRequestById(Integer id);
 
-    DriverRequest findDriverRequestByIdAndCustomerAndDriverId(Integer id, Integer customerId, Integer driverId);
+    DriverRequest findDriverRequestByIdAndCustomerAndDriverId(Integer id, Customer customer, Integer driverId);
 
     boolean existsByCustomerIdAndDriverIdAndDriverRequestStatus(Integer customerId, Integer driverId, String status);
 

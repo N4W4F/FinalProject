@@ -1,6 +1,8 @@
 package com.example.heavylogistics.Service;
 
 import com.example.heavylogistics.ApiResponse.ApiException;
+import com.example.heavylogistics.DTOin.InputVehicleRequest;
+import com.example.heavylogistics.DTOout.OutputVehicleDTO;
 import com.example.heavylogistics.Model.Customer;
 import com.example.heavylogistics.Model.MyUser;
 import com.example.heavylogistics.Model.Vehicle;
@@ -12,6 +14,7 @@ import com.example.heavylogistics.Repository.VehicleRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -55,8 +58,11 @@ public class VehicleRequestService {
         return vehicleRequestRepository.findAll();
     }
 
-    // Request a vehicle (Customer creates a request)
-    public void requestVehicle(Integer customerId, Integer vehicleId, VehicleRequest vehicleRequest) {
+    // Request Vehicle Without Driver
+    // Endpoint
+
+    public void requestVehicleWithoutDriver(Integer customerId, Integer vehicleId, InputVehicleRequest inputVehicleRequest){
+
         Customer customer = customerRepository.findCustomerById(customerId);
         if (customer == null) {
             throw new ApiException("Customer with ID: " + customerId + " was not found");
@@ -67,40 +73,43 @@ public class VehicleRequestService {
             throw new ApiException("Vehicle with ID: " + vehicleId + " was not found");
         }
 
-
-        if (!isVehicleAvailable(vehicle)) {
-            throw new ApiException("The requested vehicle is not available at the moment");
-        }
-
+        VehicleRequest vehicleRequest = new VehicleRequest();
         vehicleRequest.setCustomer(customer);
         vehicleRequest.setVehicle(vehicle);
         vehicleRequest.setRequestDate(LocalDateTime.now());
         vehicleRequest.setRequestStatus("PENDING");
+        vehicleRequest.setWithDrive(false);
+        vehicleRequest.setStartTime(inputVehicleRequest.getStartTime());
+        vehicleRequest.setEndTime(inputVehicleRequest.getEndTime());
+
+        Double totalVehicleAmount = calculateVehicleAmount(inputVehicleRequest.getStartTime(), inputVehicleRequest.getEndTime(), vehicle);
+        vehicleRequest.setTotalAmountVehicle(totalVehicleAmount);
+        vehicleRequest.setTotalAmountDriver(0.0);
         vehicleRequestRepository.save(vehicleRequest);
+
+
     }
 
-    // Update vehicle request status (Admin only)
-    public void updateRequestStatus(Integer adminId, Integer requestId, String status) {
-        MyUser admin = authRepository.findMyUserById(adminId);
-        if (admin == null || !admin.getRole().equalsIgnoreCase("ADMIN")) {
-            throw new ApiException("Admin with ID: " + adminId + " was not found or is not authorized.");
-        }
+    public Double calculateVehicleAmount(LocalDateTime start, LocalDateTime end, Vehicle vehicle) {
+        Duration duration = Duration.between(start, end);
 
-        VehicleRequest vehicleRequest = vehicleRequestRepository.findById(requestId).orElse(null);
-        if (vehicleRequest == null) {
-            throw new ApiException("Vehicle request with ID: " + requestId + " was not found");
-        }
+        Double days = (double) duration.toDays();
+        Double hours = (double) duration.minusDays(days.longValue()).toHours();
 
-        if (!status.equalsIgnoreCase("APPROVED") && !status.equalsIgnoreCase("REJECTED") && !status.equalsIgnoreCase("COMPLETED")&& !status.equalsIgnoreCase("CANCELLED")) {
-            throw new ApiException("Invalid status. Allowed statuses: APPROVED, REJECTED,COMPLETED,CANCELLED.");
+        Double totalAmount = 0.0;
+        if (days > 0) {
+            totalAmount += vehicle.getPricePerDay() * days;
         }
-
-        vehicleRequest.setRequestStatus(status.toUpperCase());
-        vehicleRequestRepository.save(vehicleRequest);
+        if (hours > 0) {
+            totalAmount += vehicle.getPricePerHour() * hours;
+        }
+        return totalAmount;
     }
+
 
 
     // Get customer-specific vehicle requests
+    // Endpoint
     public List<VehicleRequest> getCustomerRequests(Integer customerId) {
         Customer customer = customerRepository.findCustomerById(customerId);
         if (customer == null) {
@@ -110,9 +119,11 @@ public class VehicleRequestService {
         return vehicleRequestRepository.findByCustomer(customer);
     }
 
+    // Endpoint
+    /*
+    private OutputVehicleDTO getVehicleById(Integer vehicleId) {
 
-    private boolean isVehicleAvailable(Vehicle vehicle) {
-        List<VehicleRequest> requests = vehicleRequestRepository.findByVehicle(vehicle);
+        Vehicle vehicle = g
         for (VehicleRequest request : requests) {
             if ("APPROVED".equalsIgnoreCase(request.getRequestStatus())) {
                 return false;
@@ -120,4 +131,6 @@ public class VehicleRequestService {
         }
         return true;
     }
+
+     */
 }

@@ -30,11 +30,13 @@ public class VehicleReview {
     @Column(columnDefinition = "varchar(100) not null")
     private String comments;
 
-    // Relations
 
+
+    // Relations
 
     @ManyToOne
     private Customer customer;
 
-    @ManyToOne Vehicle vehicle;
+    @ManyToOne
+    private Vehicle vehicle;
 }

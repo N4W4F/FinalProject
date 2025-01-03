@@ -6,6 +6,7 @@ import com.example.heavylogistics.Model.Lessor;
 import com.example.heavylogistics.Model.MyUser;
 import com.example.heavylogistics.Model.Vehicle;
 import com.example.heavylogistics.Repository.AuthRepository;
+import com.example.heavylogistics.Repository.LessorRepository;
 import com.example.heavylogistics.Repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class VehicleService {
 
     private final VehicleRepository vehicleRepository;
     private final AuthRepository authRepository;
+    private final LessorRepository lessorRepository;
 
     // get admin
     public List<Vehicle> getDetailsAllVehicle() {
@@ -26,6 +28,7 @@ public class VehicleService {
     }
 
     // get CUSTOMER
+    // Endpoint
     public List<OutputVehicleDTO> getAllVehicle() {
         List<Vehicle> vehicles = vehicleRepository.findAll();
         List<OutputVehicleDTO> outputVehicleDTO = new ArrayList<>();
@@ -36,7 +39,7 @@ public class VehicleService {
             dto.setVehicleType(vehicle.getVehicleType());
             dto.setPricePerDay(vehicle.getPricePerDay());
             dto.setPricePerHour(vehicle.getPricePerHour());
-            dto.setCapacity(vehicle.getCapacity().toString());
+            dto.setCapacity(vehicle.getCapacity());
             dto.setColor(vehicle.getColor());
             dto.setLocation(vehicle.getLocation());
             outputVehicleDTO.add(dto);
@@ -46,7 +49,7 @@ public class VehicleService {
     }
 
     // get LESSOR
-
+    //Endpoint
     public List<Vehicle> getVehiclesByLessor(Integer lessorId) {
         MyUser lessorUser = authRepository.findMyUserById(lessorId);
         if (lessorUser == null || !lessorUser.getRole().equalsIgnoreCase("LESSOR")) {
@@ -58,26 +61,29 @@ public class VehicleService {
     }
 
 
-    public void addVehicle(Vehicle vehicle) {
-        MyUser lessorUser = authRepository.findMyUserById(vehicle.getLessor().getId());
-        if (lessorUser == null || !lessorUser.getRole().equalsIgnoreCase("LESSOR")) {
-            throw new ApiException("Lessor with ID: " + vehicle.getLessor().getId() + " not found or not authorized.");
+    public void addVehicle(Integer lessorId, Vehicle vehicle) {
+        Lessor lessor = lessorRepository.findLessorById(lessorId);
+
+        if (lessor == null ) {
+            throw new ApiException("Lessor not found. ");
         }
 
-        Lessor lessor = lessorUser.getLessor();
         vehicle.setLessor(lessor);
         vehicleRepository.save(vehicle);
     }
 
 
-    public void updateVehicle(Integer vehicleId, Vehicle updatedVehicle) {
+    public void updateVehicle(Integer lessorId,Integer vehicleId, Vehicle updatedVehicle) {
+        Lessor lessor = lessorRepository.findLessorById(lessorId);
+        if (lessor == null ) {
+            throw new ApiException("Lessor not found. ");
+        }
         Vehicle vehicle = vehicleRepository.findVehicleById(vehicleId);
-
         if (vehicle == null) {
             throw new ApiException("Vehicle with ID: " + vehicleId + " not found.");
         }
 
-        if (!vehicle.getLessor().getId().equals(updatedVehicle.getLessor().getId())) {
+        if (!vehicle.getLessor().getId().equals(lessor)) {
             throw new ApiException("Unauthorized to update this vehicle.");
         }
 
@@ -96,6 +102,10 @@ public class VehicleService {
         vehicle.setColor(updatedVehicle.getColor());
         vehicle.setLocation(updatedVehicle.getLocation());
         vehicle.setYearOfManufacture(updatedVehicle.getYearOfManufacture());
+        vehicle.setDriverPricePerHour(updatedVehicle.getDriverPricePerHour());
+        vehicle.setDriverPricePerDay(updatedVehicle.getDriverPricePerDay());
+        vehicle.setDriverPricePerDay(updatedVehicle.getDriverPricePerDay());
+        vehicle.setDriverPricePerHour(updatedVehicle.getDriverPricePerHour());
 
         vehicleRepository.save(vehicle);
     }

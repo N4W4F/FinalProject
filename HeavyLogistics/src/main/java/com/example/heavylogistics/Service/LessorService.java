@@ -8,7 +8,6 @@ import com.example.heavylogistics.Model.MyUser;
 import com.example.heavylogistics.Repository.AuthRepository;
 import com.example.heavylogistics.Repository.LessorRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.internal.constraintvalidators.bv.AssertFalseValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.List;
 public class LessorService {
     private final LessorRepository lessorRepository;
     private final AuthRepository authRepository;
-    private final AssertFalseValidator assertFalseValidator;
 
     public List<Lessor> getAllLessors(Integer adminId) {
         MyUser admin = authRepository.findMyUserById(adminId);
