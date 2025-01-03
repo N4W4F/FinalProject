@@ -23,12 +23,10 @@ public class VehicleSchedule {
     private Integer id;
 
     @NotNull(message = "Date cannot be null")
-    @Pattern(regexp ="^(0?[1-9]|1[012])\\/(0?[1-9]|[12][0-9]|3[01])\\/([0-9]{4})$" )
     @Column
     private LocalDate startTime;
 
     @NotNull(message = "Date cannot be null")
-    @Pattern(regexp ="^(0?[1-9]|1[012])\\/(0?[1-9]|[12][0-9]|3[01])\\/([0-9]{4})$" )
     @Column
     private LocalDate endTime;
 

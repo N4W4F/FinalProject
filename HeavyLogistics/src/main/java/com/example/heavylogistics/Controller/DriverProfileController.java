@@ -1,8 +1,8 @@
 package com.example.heavylogistics.Controller;
 
 import com.example.heavylogistics.ApiResponse.ApiResponse;
+import com.example.heavylogistics.DTOout.OutputDriverProfile;
 import com.example.heavylogistics.Model.DriverProfile;
-import com.example.heavylogistics.OutputDTO.OutputDriverProfile;
 import com.example.heavylogistics.Service.DriverProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

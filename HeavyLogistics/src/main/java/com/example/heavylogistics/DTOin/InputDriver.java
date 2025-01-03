@@ -45,6 +45,15 @@ public class InputDriver {
     @Pattern(regexp = "^\\d{10}$", message = "ID number must be exactly 10 digits.")
     private String nationalId;
 
+    @NotNull(message = "Nationality is required")
+    private String nationality;
+
+    @NotNull(message = "National ID Source is required")
+    private String nationalIdSource;
+
+    @NotNull(message = "National ID Issue Date is required")
+    private LocalDate nationalIdIssueDate;
+
     @NotEmpty(message = "License number is required.")
     private String licenseNumber;
 
@@ -52,6 +61,9 @@ public class InputDriver {
     @NotEmpty(message = "License type is required.")
     @Size(max = 40, message = "License type must not exceed 40 characters.")
     private String licenseType;
+
+    @NotNull(message = "license Source ID Source is required")
+    private String licenseSource;
 
     @NotNull(message = "License expiration date is required.")
     @Future(message = "License expiration date must be a future date.")

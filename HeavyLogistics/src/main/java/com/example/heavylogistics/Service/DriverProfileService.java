@@ -1,9 +1,9 @@
 package com.example.heavylogistics.Service;
 
 import com.example.heavylogistics.ApiResponse.ApiException;
+import com.example.heavylogistics.DTOout.OutputDriverProfile;
 import com.example.heavylogistics.Model.Driver;
 import com.example.heavylogistics.Model.DriverProfile;
-import com.example.heavylogistics.OutputDTO.OutputDriverProfile;
 import com.example.heavylogistics.Repository.DriverProfileRepository;
 import com.example.heavylogistics.Repository.DriverRepository;
 import lombok.RequiredArgsConstructor;
@@ -65,6 +65,7 @@ public class DriverProfileService {
         driverProfileRepository.save(profile);
     }
 
+    // Endpoint
     public void deactivateDriverProfile(Integer driverId) {
         Driver driver = driverRepository.findDriverById(driverId);
         if (driver == null) {
@@ -91,6 +92,7 @@ public class DriverProfileService {
         return outputDriverProfiles;
     }
 
+    // Endpoint
     public OutputDriverProfile getDriverProfile(Integer profileId) {
         DriverProfile profile = driverProfileRepository.findByDriverId(profileId);
         if (profile == null) {

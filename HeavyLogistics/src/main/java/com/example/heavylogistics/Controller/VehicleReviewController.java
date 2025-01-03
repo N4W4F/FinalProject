@@ -1,4 +1,5 @@
 package com.example.heavylogistics.Controller;
 
-public class RequestVehicleController {
+public class VehicleReviewController {
+    
 }

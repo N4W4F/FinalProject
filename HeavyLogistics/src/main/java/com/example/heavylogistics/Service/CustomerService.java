@@ -102,12 +102,12 @@ public class CustomerService {
         if (!checkRequestWithCustomer.equals(driverRequest)) {
             throw  new ApiException("The request doesn't match");
         }
-        if (checkRequestWithCustomer.getDriverRequestStatus().equals("Completed")){
+        if (checkRequestWithCustomer.getDriverRequestStatus().equals("COMPLETED")){
             throw new ApiException("The Request has been completed");
         }
 
         if (decision.equalsIgnoreCase("cancel")) {
-            driverRequest.setDriverRequestStatus("CANACELLED");
+            driverRequest.setDriverRequestStatus("CANCELLED");
         }
         driverRequestRepository.save(driverRequest);
     }

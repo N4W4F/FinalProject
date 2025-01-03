@@ -32,12 +32,17 @@ public class DriverService {
         user.setEmail(inputDriver.getEmail());
         user.setPhoneNumber(inputDriver.getPhoneNumber());
         user.setRegistrationAt(LocalDate.now());
+
         //driver's fields
         Driver driver = new Driver();
         driver.setId(null);
         driver.setDriverName(inputDriver.getName());
-        driver.setLicenseType(inputDriver.getLicenseType());
+        driver.setNationality(inputDriver.getNationality());
+        driver.setNationalIdSource(inputDriver.getNationalIdSource());
+        driver.setNationalIdIssueDate(inputDriver.getNationalIdIssueDate());
         driver.setLicenseNumber(inputDriver.getLicenseNumber());
+        driver.setLicenseType(inputDriver.getLicenseType());
+        driver.setLicenseSource(inputDriver.getLicenseSource());
         driver.setLicenseExpirationDate(inputDriver.getLicenseExpirationDate());
         driver.setDriverProfile(null);
         driver.setUser(user);
@@ -54,15 +59,15 @@ public class DriverService {
         }
         // Update driver's fields
         driver.setDriverName(inputDriver.getName());
-        driver.setLicenseType(inputDriver.getLicenseType());
+        driver.setNationalIdIssueDate(inputDriver.getNationalIdIssueDate());
         driver.setLicenseNumber(inputDriver.getLicenseNumber());
+        driver.setLicenseSource(inputDriver.getLicenseSource());
         driver.setLicenseExpirationDate(inputDriver.getLicenseExpirationDate());
 
         // Update associated user fields
         MyUser user = driver.getUser();
         user.setUsername(inputDriver.getUsername());
         user.setPassword(inputDriver.getPassword());
-        user.setNationalId(inputDriver.getNationalId());
         user.setEmail(inputDriver.getEmail());
         user.setPhoneNumber(inputDriver.getPhoneNumber());
 

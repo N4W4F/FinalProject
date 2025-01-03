@@ -19,61 +19,74 @@ import java.util.Set;
 @NoArgsConstructor
 public class Vehicle {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty(message = "User National ID cannot be empty")
-    @Pattern(regexp = "^\\d{10}$", message = "National ID must be exactly 10 digits.")
-    private String nationalId;
+    //Owner data
+    @Column(nullable = false)
+    private String ownerNationalId;
+
 
     @NotEmpty(message = "Name Vehicle Owner cannot be empty")
+    @Column(nullable = false)
     private String nameVehicleOwner;
+
 
     //Operation card data
 
+    @NotEmpty(message = "card Number cannot be empty.")
+    @Column(nullable = false)
     private Integer cardNumber;
 
+    @NotEmpty(message = "card Issuance Date cannot be empty.")
+    @Column(nullable = false)
     private LocalDateTime cardIssuanceDate;
 
+    @NotEmpty(message = "card Expiry Date cannot be empty.")
+    @Column(nullable = false)
     private LocalDateTime cardExpiryDate;
 
+    @NotEmpty(message = "card Renewal Date cannot be empty.")
+    @Column(nullable = false)
     private LocalDateTime cardRenewalDate;
 
 
     //Vehicle data
-
-    @NotEmpty(message = "vehicleName should be not empty!")
+    @NotEmpty(message = "Vehicle name cannot be empty.")
+    @Column(nullable = false)
     private String vehicleName;
 
-    @NotEmpty(message = "vehicleType should be not empty!")
+    @NotEmpty(message = "Vehicle type cannot be empty.")
+    @Column(nullable = false)
     private String vehicleType;
 
-    @NotEmpty(message = "Vehicle Capacity is required")
-    private String vehicleCapacity;
+    @NotEmpty(message = "License plate is required.")
+    @Column(nullable = false, unique = true)
+    private String licensePlate;
 
-    @NotEmpty(message = "License Plate should be not empty!")
-    private String LicensePlate;
+    @NotNull(message = "Price per day is required.")
+    @Positive(message = "Price per day must be a positive number.")
+    private Double pricePerDay;
 
-    @NotNull(message = "PricePerDay Plate should be not empty!")
-    @Positive(message = "PricePerDay number must be positive")
-    private Double  PricePerDay;
-
-    @NotNull(message = "PricePerHour Plate should be not empty!")
-    @Positive(message = "PricePerHour number must be positive")
+    @NotNull(message = "Price per hour is required.")
+    @Positive(message = "Price per hour must be a positive number.")
     private Double pricePerHour;
 
-    @NotEmpty(message = "Location should be not empty!")
-    private String Location;
+    @NotEmpty(message = "Vehicle capacity is required.")
+    private String capacity;
 
+    @NotEmpty(message = "Vehicle color cannot be empty.")
+    private String color;
 
-    @NotEmpty(message = "yearOfManufacture should be not empty!")
-    private String  yearOfManufacture;
+    @NotEmpty(message = "Location is required.")
+    private String location;
 
-    @NotEmpty(message = "vehicleColor should be not empty!")
-    private String vehicleColor;
+    @NotEmpty(message = "Year of manufacture cannot be empty.")
+    private String yearOfManufacture;
 
-
+    // Relations
 
     @ManyToOne
     private Lessor lessor;

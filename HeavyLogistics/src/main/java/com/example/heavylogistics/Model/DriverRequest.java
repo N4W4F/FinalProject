@@ -25,11 +25,11 @@ public class DriverRequest {
     private String vehicleName;
 
     @NotEmpty(message = "vehicleType should be not empty!")
-    @Column(columnDefinition = "VARCHAR(40) NOT NULL")
+    @Column(columnDefinition = "VARCHAR(50) NOT NULL")
     private String vehicleType;
 
     @NotEmpty(message = "Vehicle Capacity is required")
-    @Column(columnDefinition = "VARCHAR(20) NOT NULL")
+    @Column(columnDefinition = "VARCHAR(30) NOT NULL")
     private String vehicleCapacity;
 
     @NotEmpty(message = "Starting location is required.")
@@ -59,11 +59,10 @@ public class DriverRequest {
     @Column(columnDefinition = "VARCHAR(500)")
     private String customerNote;
 
-    @Pattern(regexp = "PENDING|APPROVED|REJECTED|COMPLETED|CANACELLED")
-    @Column(columnDefinition = "varchar(10) default 'Pending'")
+    @Pattern(regexp = "PENDING|APPROVED|REJECTED|IN PROGRESS|COMPLETED|CANACELLED")
+    @Column(columnDefinition = "varchar(15) default 'PENDING'")
     private String driverRequestStatus;
 
-    // Relations
 
     @ManyToOne
     @JoinColumn(name = "driver_id", nullable = false)
@@ -72,7 +71,5 @@ public class DriverRequest {
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
-
-
 
 }

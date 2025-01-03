@@ -1,4 +1,4 @@
-package com.example.heavylogistics.OutputDTO;
+package com.example.heavylogistics.DTOout;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
